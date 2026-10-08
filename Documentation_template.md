@@ -12,7 +12,7 @@ We retrieve candidates with multi-view TF-IDF search, prune them with a learned 
 - a learned prior on how many candidates of an S1 are true, used inside the expected-F0.5 decision;
 - a corrected street-number rule for France: renumbered copies with the same legal form are kept, only legal-form clones are rejected.
 
-Macro F0.5 on the held-out S1 entities is **0.9889**; public leaderboard **0.986126** for this final version. Fully offline, no external data, no pretrained weights.
+Macro F0.5 on the held-out S1 entities is **0.9889**; public leaderboard **0.989126** for the final version (0.986126 before the Adam + hidden-layer change to neural training). Fully offline, no external data, no pretrained weights.
 
 ## 2. Methodology
 ### 2.1 Problem Analysis
@@ -56,7 +56,8 @@ Macro F0.5 on the held-out S1 entities is **0.9889**; public leaderboard **0.986
 | + neural pair model (G9) | 0.9885 | — |
 | + cardinality prior | 0.9887 | — |
 | + France gate restricted to legal-form conflicts | 0.9887 (no France labels) | 0.985786 |
-| + second neural model, logits averaged (final) | **0.9889** | **0.986126** |
+| + second neural model, logits averaged | **0.9889** | 0.986126 |
+| + Adam optimizer and extra hidden layer in neural training (final) | | **0.989126** |
 
 - **Robustness of the neural and cardinality steps:** +0.00048 to +0.00052 over three stacker seeds for model A with the prior, +0.00070 / +0.00076 for the A+B average (two seeds), positive in both holdout halves and both countries; the neural signal is stronger on targets it never saw in training (within-stratum AUC 0.69 vs 0.55), so it is not memorisation.
 - **Common false positives:** independently written homonyms at a neighbouring street number (especially after a one-digit change that is also a plausible typo); random aliases at the S1's exact address.

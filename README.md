@@ -19,14 +19,15 @@ about three times more than a missed one.
 | Raw strings | Normalization was destroying evidence; add raw-name features to a holdout stacker, recover missed same-address copies | 0.9876 | 0.98452 |
 | Copy vs decoy | Learn which name transformations the generator uses for true copies versus decoys | 0.9882 | 0.98511 |
 | Neural + cardinality | Character-level transformer trained from scratch; learned prior on how many matches a business has | 0.9887 | 0.98579 |
-| Final | Second neural model averaged in; France gate relaxed to legal-form conflicts only | **0.9889** | **0.98613** |
+| v19 | Second neural model averaged in; France gate relaxed to legal-form conflicts only | 0.9889 | 0.98613 |
+| Final | Neural training change: Adam optimizer and an extra hidden layer | | **0.98913** |
 
 The largest jumps came from reverse-engineering how the data generator builds copies and decoys, not from bigger
 models. Several ideas were measured and dropped: graph/entity profiles, target-side rescue retrieval, sibling and
 anchor propagation, and ranking-based stackers. The remaining gap sits in address-less records whose names are shared
 by several businesses, which the data cannot disambiguate. See [ARCHITECTURE.md](ARCHITECTURE.md) for the design.
 
-## Quick start (reproduce the 0.989126 submission)
+## Quick start (reproduce the submission)
 
 1. **Get the data.** The competition dataset is not in this repo. Download it from the challenge portal; you need the
    folder containing `train/` and `test/`, plus `utils/validate_submission.py` from the same download.
@@ -134,7 +135,7 @@ python -m ber.cli final --card --neural --gate open   # stacker (+G9), generator
 | `neural` (RTX 3050 Laptop: model A 46 min + model B ≈ 2 h training; each scores holdout ≈ 6 min + test ≈ 30 min) | ≈ 4 h |
 | `final --card --neural --gate open` | ≈ 25 min |
 
-Macro F0.5 on the held-out 20% of training S1 entities (H): **0.9889**; public leaderboard **0.986126** (this version; the previous version with one neural model scored 0.985786).
+Macro F0.5 on the held-out 20% of training S1 entities (H): **0.9889**; public leaderboard **0.986126** for this code (the final 0.989126 added the Adam + hidden-layer neural change; the previous version with one neural model scored 0.985786).
 The earlier `submit` command (stage-2 scores, expected-F0.5 rule, optional `--catswap`) still produces the first, simpler submission.
 
 ## Neural weights and reproducibility
