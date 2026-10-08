@@ -26,7 +26,36 @@ models. Several ideas were measured and dropped: graph/entity profiles, target-s
 anchor propagation, and ranking-based stackers. The remaining gap sits in address-less records whose names are shared
 by several businesses, which the data cannot disambiguate. See [ARCHITECTURE.md](ARCHITECTURE.md) for the design.
 
-The competition data is not included; download it from the challenge portal.
+## Quick start (reproduce the 0.986126 submission)
+
+1. **Get the data.** The competition dataset is not in this repo. Download it from the challenge portal; you need the
+   folder containing `train/` and `test/`, plus `utils/validate_submission.py` from the same download.
+2. **Install** (Python 3.11):
+   ```bash
+   python -m venv .venv
+   source .venv/Scripts/activate        # PowerShell: .venv\Scripts\Activate.ps1
+   python -m pip install -r requirements.txt
+   python -m pip install -e . --no-deps
+   ```
+3. **Point to the data:**
+   ```bash
+   export BER_DATA_DIR=/path/to/student_resource/dataset    # PowerShell: $env:BER_DATA_DIR="C:\path\to\dataset"
+   ```
+   Without it, the code looks for `../6ab10eb3b23ba_student_resource/student_resource/dataset/`.
+4. **Run.** Hardware needed: about 16 GB RAM, 20 GB disk, and a CUDA GPU (4 GB) for the neural step.
+   - **Exact reproduction:** use the shipped neural weights instead of retraining. Retraining on a GPU gives
+     slightly different weights, so the score lands very close but not identical. The LightGBM parts are
+     deterministic.
+     ```bash
+     python -m ber.cli all --final --card --gate open          # everything except the neural step
+     mkdir -p work/nn && cp weights/model.pt weights/model_b.pt weights/vocab.npy work/nn/
+     python -m ber.cli neural --score-only
+     python -m ber.cli final --card --neural --gate open
+     ```
+   - **Full retrain:** `python -m ber.cli all --final --card --neural --gate open` (about 4 h).
+5. **Collect the outputs:** `output/matching_results.tsv` (the scored file) and `output/candidate_pairs.tsv`. The
+   validator runs automatically.
+6. **Check the code** (optional): `python -m pytest` (103 tests).
 
 This pipeline links every Source-1 business to its Source-2/Source-3 records. The steps are:
 
