@@ -1,7 +1,7 @@
 # Business Entity Resolution — Amazon ML Challenge 2026
 
 Team 001: Sidaarth Krishnakanth and Khavin S (Sathyabama Institute of Science and Technology, Chennai).
-**Public leaderboard: macro F0.5 0.986126 (top 100).**
+**Public leaderboard: macro F0.5 0.989126 (top 100).**
 
 The task: for each of 1.73M reference businesses (Source 1), find all of its noisy copies among ~10M records in
 Sources 2 and 3. There are no shared IDs; names and addresses carry typos, abbreviations, reordering and Indic scripts.
@@ -26,7 +26,7 @@ models. Several ideas were measured and dropped: graph/entity profiles, target-s
 anchor propagation, and ranking-based stackers. The remaining gap sits in address-less records whose names are shared
 by several businesses, which the data cannot disambiguate. See [ARCHITECTURE.md](ARCHITECTURE.md) for the design.
 
-## Quick start (reproduce the 0.986126 submission)
+## Quick start (reproduce the 0.989126 submission)
 
 1. **Get the data.** The competition dataset is not in this repo. Download it from the challenge portal; you need the
    folder containing `train/` and `test/`, plus `utils/validate_submission.py` from the same download.
