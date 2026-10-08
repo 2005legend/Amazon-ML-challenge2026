@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ber"
+version = "1.0.0"
+description = "Business entity resolution pipeline (ML Challenge 2026)"
+requires-python = ">=3.11"
+
+[tool.setuptools.packages.find]
+where = ["src"]

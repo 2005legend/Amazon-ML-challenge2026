@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+work/
+work_fr/
+work_tc/
+output/
+*.tsv
+*.zip
